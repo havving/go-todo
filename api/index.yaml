@@ -1,0 +1,112 @@
+openapi: 3.0.3
+
+info:
+  title: Todo Board
+  description: Todo Board
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local Develpoment
+
+paths:
+  /api/todos:
+    get:
+      summary: List all todos
+      operationId: getTodos
+      tags:
+        - todos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        default:
+          description: FAIL
+
+    post:
+      summary: Add todo
+      operationId: postTodo
+      tags:
+        - todos
+      requestBody:
+        description: Add todo
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Todo"
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        '400':
+          description: FAIL
+
+  /api/todos/{id}:
+    delete:
+      summary: Delete todo
+      operationId: removeTodo
+      tags:
+        - todos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Todo id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        '404':
+          description: FAIL
+
+    put:
+      summary: Update todo
+      operationId: updateTodo
+      tags:
+        - todos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Todo id
+          schema:
+            type: integer
+      requestBody:
+        description: Update todo
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Todo"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        '400':
+          description: FAIL
+
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        completed:
+          type: boolean
